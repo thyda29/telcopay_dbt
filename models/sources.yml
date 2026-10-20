@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: silver
+    description: "Cleansed Silver tables produced by the Databricks notebook 02_silver_cleansing."
+    database: workspace
+    schema: silver
+    tables:
+      - name: silver_customers
+        description: "One row per customer after de-duplication and standardisation (rules R1-R8)."
+        columns:
+          - name: customer_id
+            tests: [unique, not_null]
+      - name: silver_transactions
+        description: "One row per valid transaction (rules R9-R17). Rejected rows are in quarantine_transactions."
+        columns:
+          - name: transaction_id
+            tests: [unique, not_null]

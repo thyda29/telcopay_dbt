@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: mart_revenue_by_stream
+    description: "Net revenue by stream. Matches gold.gold_revenue_by_stream."
+    columns:
+      - name: revenue_stream
+        tests: [unique, not_null]
+      - name: net_revenue_aud
+        tests: [not_null]
+  - name: mart_customer_spending
+    description: "One row per customer with gross, reversed and net revenue. Matches gold.gold_customer_spending."
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]

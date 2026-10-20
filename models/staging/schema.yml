@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Light rename/select layer over silver_customers."
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: plan
+        tests:
+          - accepted_values:
+              values: ['Prepaid Basic', 'Postpaid 30', 'Postpaid 50', 'Postpaid 80', 'Family Pack', 'Business Pro']
+      - name: state
+        tests:
+          - accepted_values:
+              values: ['NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT', 'Unknown']
+      - name: customer_status
+        tests:
+          - accepted_values:
+              values: ['Active', 'Inactive', 'Suspended']
+
+  - name: stg_transactions
+    description: "Light rename/select layer over silver_transactions."
+    columns:
+      - name: transaction_id
+        tests: [unique, not_null]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: txn_status
+        tests:
+          - accepted_values:
+              values: ['Completed', 'Failed', 'Pending', 'Reversed']
+      - name: channel
+        tests:
+          - accepted_values:
+              values: ['App', 'Website', 'Store', 'Agent', 'IVR', 'Unknown']
+      - name: txn_type
+        tests:
+          - accepted_values:
+              values: ['Call', 'International Call', 'SMS', 'Data', 'Roaming Data', 'Recharge']
+      - name: amount_aud
+        tests: [not_null]

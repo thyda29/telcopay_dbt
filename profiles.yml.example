@@ -1,0 +1,13 @@
+# Copy to ~/.dbt/profiles.yml and fill in the three values from Databricks.
+# Keep the token out of Git: use the DBT_DATABRICKS_TOKEN environment variable.
+telcopay_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: workspace
+      schema: dbt_dev
+      host: <your-workspace>.cloud.databricks.com        # Workspace URL without https://
+      http_path: /sql/1.0/warehouses/<warehouse-id>      # SQL Warehouses > Connection details
+      token: "{{ env_var('DBT_DATABRICKS_TOKEN') }}"     # Personal access token
+      threads: 4

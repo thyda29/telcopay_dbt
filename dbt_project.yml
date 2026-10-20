@@ -1,0 +1,23 @@
+name: telcopay_dbt
+version: "1.0.0"
+config-version: 2
+profile: telcopay_dbt
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  data_start: "2023-01-01"   # same window as Silver rule R10b
+  data_end: "2025-06-30"
+
+models:
+  telcopay_dbt:
+    staging:
+      +materialized: view
+      +schema: dbt_staging
+    marts:
+      +materialized: table
+      +schema: dbt_marts
